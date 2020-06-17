@@ -65,7 +65,7 @@ class Registro0 extends Generico0 {
 			'tipo' => 'int',
             'required' => true
         ),
-		'uso_bb1' => array(
+		'codigo_convenio' => array(
 			'tamanho' => 20,
 			'default' => ' ',
 			'tipo' => 'alfa',

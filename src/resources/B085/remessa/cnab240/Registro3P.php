@@ -102,7 +102,7 @@ class Registro3P extends Generico3 {
         ),
 		'filler2' => array(
 			'tamanho' => 1,
-			'default' => '0',
+			'default' => ' ',
 			'tipo' => 'alfa',
             'required' => true
         ),
@@ -138,8 +138,8 @@ class Registro3P extends Generico3 {
         ),
         'entrega_boleto' => array(
             'tamanho' => 1,
-            'default' => ' ',
-            'tipo' => 'alfa', // Originalmente no manual está alfa, mas foi mudado para int para funcionar 
+            'default' => '2',
+            'tipo' => 'alfa',
             'required' => true
         ),
         'seu_numero' => array( // Campo de preenchimento obrigatório; preencher com Seu Número de controle do título
@@ -170,7 +170,7 @@ class Registro3P extends Generico3 {
         'agencia_cobradora_dv' => array(
             'tamanho' => 1,
             'default' => ' ',
-            'tipo' => 'alfa', // Originalmente no manual está alfa, mas foi mudado para int para funcionar
+            'tipo' => 'alfa',
             'required' => true
         ),
         'especie_titulo' => array(
@@ -193,7 +193,7 @@ class Registro3P extends Generico3 {
         ),
         'codigo_juros' => array(
             'tamanho' => 1,
-            'default' => '0',
+            'default' => '1',
             'tipo' => 'int',
             'required' => true
         ),
@@ -263,7 +263,7 @@ class Registro3P extends Generico3 {
         ),
         'baixar' => array(
             'tamanho' => 1,
-            'default' => '0',
+            'default' => '2',
             'tipo' => 'int',
             'required' => true
         ),
@@ -341,47 +341,6 @@ class Registro3P extends Generico3 {
                 }
             }
         }
-    }
-
-    protected function set_nosso_numero($data) {
-        $convenio =RemessaAbstract::$entryData['convenio']; //RemessaAbstract::$entryData['convenio'];
-        $sequencial = $this->entryData['nosso_numero']; //RemessaAbstract::$entryData['seu_numero'];
-        $carteira = RemessaAbstract::$entryData['carteira'];
-        // echo "convênio: $convenio <br>";
-        $numero = null;
-        //echo "CONVÊNIO $convenio CARTEIRA: $carteira NOSSO NÚMERO: $sequencial <br>";
-
-        switch (strlen($convenio)) {
-            // Convênio de 4 dígitos, são 11 dígitos no nosso número
-            case 4:
-                //$numero =$convenio. str_pad($sequencial, 7, '0', STR_PAD_LEFT);
-                $numero = $convenio.substr($sequencial,0,7);
-                $numero .= self::modulo11($numero);
-
-                break;
-            // Convênio de 6 dígitos, são 11 dígitos no nosso número
-            case 6:
-                // Exceto no caso de ter a carteira 21, onde são 17 dígitos
-                if ($carteira == 21) {
-                    $numero = $sequencial;
-                } else {
-                    $numero = $convenio . substr($sequencial, 0, 5);
-                }
-
-                $numero .= self::modulo11($numero);
-                break;
-            // Convênio de 7 dígitos, são 17 dígitos no nosso número
-            case 7:
-                $numero = $convenio.str_pad($sequencial, 10, '0', STR_PAD_LEFT);
-				//	echo "número: $numero <br>";
-                break;
-            // Não é com 4, 6 ou 7 dígitos? Não existe.
-            default:
-                throw new Exception('O código do convênio precisa ter 4, 6 ou 7 dígitos! '.$convenio);
-        }
-        //$numero=str_pad($numero, 20, ' '); // Inserindo zeros à direita para completar 20 de espaço
-		//echo "número: $numero <br>";
-        $this->data['nosso_numero'] = $numero;
     }
 
     /**

@@ -68,7 +68,7 @@ class Registro1 extends Generico1 {
             'tipo' => 'alfa',
             'required' => true
         ),
-        'versa_layout' => array(
+        'versao_layout' => array(
             'tamanho' => 3,
             'default' => '045',
             'tipo' => 'int',
